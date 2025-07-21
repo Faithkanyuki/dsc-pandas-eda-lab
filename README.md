@@ -93,14 +93,18 @@ And set `%matplotlib inline` so the graphs will display immediately below the ce
 
 
 ```python
-# Your code here
+import pandas as pd
+import matplotlib.pyplot as plt
+
+%matplotlib inline
 ```
 
 Now, use pandas to open the file located at `data/ames.csv` ([documentation here](https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.read_csv.html)). Specify the argument `index_col=0` in order to avoid creating an extra `Id` column. Name the resulting dataframe `df`.
 
 
 ```python
-# Your code here
+df=pd.read_csv("data/ames.csv",index_col=0)
+
 ```
 
 The following code checks that you loaded the data correctly:
@@ -146,14 +150,29 @@ In the cell below, produce a histogram for `SalePrice`.
 
 
 ```python
-# Your code here
+plt.figure(figsize=(10, 4))
+plt.hist(df['SalePrice'], bins=30, color='lightblue', edgecolor='black')
+plt.axvline(df['SalePrice'].mean(), color='black', linestyle='dashed', linewidth=2, label='Mean')
+plt.title('Distribution of Sale Price')
+plt.xlabel('Sale Price')
+plt.ylabel('Frequency')
+plt.legend()
+plt.grid(True)#easy reading of the graph 
+plt.show()
 ```
 
 Now, print out the mean, median, and standard deviation:
 
 
 ```python
-# Your code here
+mean_price = df['SalePrice'].mean()
+median_price = df['SalePrice'].median()
+std_price = df['SalePrice'].std()
+
+print("SalePrice Statistics Analysis:")
+print(f"Mean: {mean_price:.2f}")#two decimal places 
+print(f"Median: {median_price:.2f}")
+print(f"Standard Deviation: {std_price:.2f}")
 ```
 
 In the cell below, interpret the above information.
@@ -162,7 +181,10 @@ In the cell below, interpret the above information.
 ```python
 # Replace None with appropriate text
 """
-None
+SalePrice Statistics Analysis:
+The average (mean) sale price is $180,921.20, while the median is lower at $163,000.00, indicating a right-skewed distribution.
+This suggests that most houses are moderately priced, but a few high-priced homes are pulling the average up.
+The high standard deviation of $79,442.50 shows there is significant variation in house prices.
 """
 ```
 
@@ -173,13 +195,32 @@ In the cell below, produce a histogram for `TotRmsAbvGrd`.
 
 ```python
 # Your code here
+plt.figure(figsize=(10, 4))
+plt.hist(df['TotRmsAbvGrd'], bins=15, color='lightgreen', edgecolor='black')
+plt.axvline(df['TotRmsAbvGrd'].mean(), color='black', linestyle='dashed', linewidth=2, label='Mean')
+plt.title('Distribution of Total Rooms Above Ground')
+plt.xlabel('Total Rooms Above Ground')
+plt.ylabel('Frequency')
+plt.legend()
+plt.grid(True)#easy reading of figures in the graph
+plt.show()
+
 ```
 
 Now, print out the mean, median, and standard deviation:
 
 
 ```python
+
 # Your code here
+mean_price = df['TotRmsAbvGrd'].mean()
+median_price = df['TotRmsAbvGrd'].median()
+std_price = df['TotRmsAbvGrd'].std()
+
+print("Total Rooms Above Ground Statistics Analysis:")
+print(f"Mean: {mean_price:.2f}")#two decimal places 
+print(f"Median: {median_price:.2f}")
+print(f"Standard Deviation: {std_price:.2f}")
 ```
 
 In the cell below, interpret the above information.
@@ -188,7 +229,10 @@ In the cell below, interpret the above information.
 ```python
 # Replace None with appropriate text
 """
-None
+Total Rooms Above Ground Statistics Analysis:
+The average number of rooms above ground is 6.52, slightly higher than the median of 6.00, indicating a mildly right-skewed distribution.
+This suggests most homes have around 6 rooms, with a few having more.
+The standard deviation of 1.63 shows moderate variation in room counts among houses.
 """
 ```
 
@@ -199,6 +243,15 @@ In the cell below, produce a histogram for `OverallCond`.
 
 ```python
 # Your code here
+plt.figure(figsize=(10, 4))
+plt.hist(df['OverallCond'], bins=10, color='orange', edgecolor='black')
+plt.axvline(df['OverallCond'].mean(), color='black', linestyle='dashed', linewidth=2, label='Mean')
+plt.title('Distribution of Overall Condition')
+plt.xlabel('Overall Condition')
+plt.ylabel('Frequency')
+plt.legend()
+plt.grid(True)#easy reading figures on the graph
+plt.show()
 ```
 
 Now, print out the mean, median, and standard deviation:
@@ -206,6 +259,14 @@ Now, print out the mean, median, and standard deviation:
 
 ```python
 # Your code here
+mean_price = df['OverallCond'].mean()
+median_price = df['OverallCond'].median()
+std_price = df['OverallCond'].std()
+
+print("OverallCond Statistics Analysis:")
+print(f"Mean: {mean_price:.2f}")#two decimal places 
+print(f"Median: {median_price:.2f}")
+print(f"Standard Deviation: {std_price:.2f}")
 ```
 
 In the cell below, interpret the above information.
@@ -214,7 +275,10 @@ In the cell below, interpret the above information.
 ```python
 # Replace None with appropriate text
 """
-None
+Overall Condition Statistics Analysis:
+The average overall condition rating is 5.58, slightly above the median of 5.00, suggesting a slight right-skew in the data.
+Most homes are rated around average condition, with fewer homes in excellent or poor condition.
+The standard deviation of 1.11 indicates relatively low variation in condition ratings across homes.
 """
 ```
 
@@ -233,9 +297,12 @@ In the cell below, create three variables, each of which represents a record-wis
 
 ```python
 # Replace None with appropriate code
-below_average_condition = None
-average_condition = None
-above_average_condition = None
+below_average_condition = df[df["OverallCond"]<5]
+average_condition = df[df["OverallCond"]==5]
+above_average_condition = df[df["OverallCond"]>5]
+#print(f"Below_average_condition {below_average_condition}")
+#print(f"Average_condition {average_condition}")
+#print(f"Above_average_condition {above_average_condition}")
 ```
 
 The following code checks that you created the subsets correctly:
@@ -304,7 +371,9 @@ Interpret the plot above. What does it tell us about these overall condition cat
 ```python
 # Replace None with appropriate text
 """
-None
+Homes in above average condition generally have higher sale prices, with the distribution shifted to the right.
+Average condition homes are the most common, centered around a moderate price range.
+Surprisingly, below average condition homes still span a wide price range, showing that condition isn’t the only factor affecting sale price.
 """
 ```
 
@@ -321,6 +390,12 @@ You can import additional libraries, although it is possible to do this just usi
 
 ```python
 # Your code here
+numeric_df = df.select_dtypes(include='number')
+correlations = numeric_df.corr()['SalePrice'].drop('SalePrice')
+most_pos_corr = correlations.idxmax()#column name 
+pos_corr_value = correlations.max()# exact figure or value
+print(f"Most positively correlated column: {most_pos_corr}")
+print(f"Pearson correlation: {pos_corr_value:.2f}")
 ```
 
 Now, find the ***most negatively correlated*** column:
@@ -328,6 +403,10 @@ Now, find the ***most negatively correlated*** column:
 
 ```python
 # Your code here
+most_neg_corr = correlations.idxmin()
+neg_corr_value = correlations.min()
+print(f"Most negatively correlated column: {most_neg_corr}, Correlation: {neg_corr_value:.2f}")
+
 ```
 
 Once you have your answer, edit the code below so that it produces a box plot of the relevant columns.
@@ -342,23 +421,24 @@ fig, (ax1, ax2) = plt.subplots(ncols=2, figsize=(15,5))
 
 # Plot distribution of column with highest correlation
 sns.boxplot(
-    x=None,
+    x=df[most_pos_corr],#gives the actual data not column name 
     y=df["SalePrice"],
     ax=ax1
 )
 # Plot distribution of column with most negative correlation
 sns.boxplot(
-    x=None,
+    x=df[most_neg_corr],#give actual data not column name 
     y=df["SalePrice"],
     ax=ax2
 )
 
 # Customize labels
-ax1.set_title(None)
-ax1.set_xlabel(None)
+ax1.set_title(f"{most_pos_corr} vs SalePrice")
+ax1.set_xlabel(most_pos_corr)
 ax1.set_ylabel("Sale Price")
-ax2.set_title(None)
-ax2.set_xlabel(None)
+
+ax2.set_title(f"{most_neg_corr} vs SalePrice")
+ax2.set_xlabel(most_neg_corr)
 ax2.set_ylabel("Sale Price");
 ```
 
@@ -368,8 +448,12 @@ Interpret the results below. Consult `data/data_description.txt` as needed.
 ```python
 # Replace None with appropriate text
 """
-None
-"""
+The boxplot for OverallQual shows that as overall quality increases,
+sale prices also increase significantly, confirming the strong positive correlation (0.79).
+This indicates that homes with higher quality ratings consistently fetch higher prices.
+On the other hand, the boxplot for KitchenAbvGr shows minimal variation in 
+SalePrice across its values, supporting the weak negative correlation (-0.14) and suggesting it has little effect on price.
+""" 
 ```
 
 ## 5. Engineer and Explore a New Feature
@@ -409,7 +493,10 @@ Interpret this plot below:
 ```python
 # Replace None with appropriate text
 """
-None
+The scatter plot shows that as the age of the home increases, the sale price generally decreases.
+This indicates a negative relationship between home age and sale price. Newer homes tend to sell for more,
+while older homes tend to sell for less. However, there are some exceptions, as a few older homes still
+sell at high prices. This suggests that home age is an important feature that can help predict sale price.
 """
 ```
 
